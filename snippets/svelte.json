@@ -1,0 +1,31 @@
+{
+  "Svelte TypeScript Component": {
+    "prefix": ["stc"],
+    "body": [
+      "<script lang=\"ts\">",
+      "type Props = {};",
+      "",
+      "let props: Props = \\$props();",
+      "",
+      "</script>",
+      "",
+      "<div>",
+      "  ${TM_FILENAME_BASE}",
+      "</div>"
+    ]
+  },
+  "Svelte TypeScript Page": {
+    "prefix": ["stp"],
+    "body": [
+      "<script lang=\"ts\">",
+      "  import type { PageData } from './$types';",
+      "",
+      "  let { data }: { data: PageData } = \\$props();",
+      "</script>",
+      "",
+      "<section class=\"\">",
+      "  ${TM_FILENAME_BASE}",
+      "</section>"
+    ]
+  }
+}

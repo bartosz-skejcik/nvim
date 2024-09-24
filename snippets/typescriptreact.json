@@ -1,0 +1,17 @@
+{
+  "Typescript React Functional Component Export": {
+    "prefix": ["tsrfce"],
+    "body": [
+      "type Props = {};",
+      "",
+      "export default function \\${TM_FILENAME_BASE}(props: Props) {",
+      "  return (",
+      "    <div>",
+      "      ${TM_FILENAME_BASE}",
+      "    </div>",
+      "  );",
+      "}",
+      ""
+    ]
+  },
+}
