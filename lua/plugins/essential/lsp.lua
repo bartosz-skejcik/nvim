@@ -260,11 +260,36 @@ return {
 						"jsx",
 						"tsx",
 					},
+					settings = {
+						html = {
+							suggest = {
+								html5 = true,
+							},
+						},
+					},
+					-- Add a lower priority for HTML
+					root_dir = function(fname)
+						return require("lspconfig").util.find_git_ancestor(fname) or vim.fn.getcwd()
+					end,
 				},
 
 				htmx = {
 					capabilities = capabilities,
-					filetypes = { "html", "templ" },
+					filetypes = { "htmx", "html.htmx", "html", "templ" },
+					settings = {
+						htmx = {
+							completion = {
+								enabled = true,
+								callSnippet = "Replace",
+							},
+						},
+					},
+					-- Add a higher priority for HTMX
+					root_dir = function(fname)
+						return require("lspconfig").util.root_pattern("*.htmx")(fname)
+							or require("lspconfig").util.find_git_ancestor(fname)
+							or vim.fn.getcwd()
+					end,
 				},
 
 				emmet_language_server = {
@@ -355,7 +380,6 @@ return {
 				-- gleam = {
 				-- capabilities = capabilities,
 				-- },
-
 				clangd = {
 					cmd = {
 						"clangd",

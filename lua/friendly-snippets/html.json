@@ -1,0 +1,114 @@
+{
+  "hx-get": {
+    "prefix": "hx-get",
+    "body": ["hx-get=\"${1:/endpoint}\"$0"],
+    "description": "HTMX GET request"
+  },
+  "hx-post": {
+    "prefix": "hx-post",
+    "body": ["hx-post=\"${1:/endpoint}\"$0"],
+    "description": "HTMX POST request"
+  },
+  "hx-put": {
+    "prefix": "hx-put",
+    "body": ["hx-put=\"${1:/endpoint}\"$0"],
+    "description": "HTMX PUT request"
+  },
+  "hx-delete": {
+    "prefix": "hx-delete",
+    "body": ["hx-delete=\"${1:/endpoint}\"$0"],
+    "description": "HTMX DELETE request"
+  },
+  "hx-patch": {
+    "prefix": "hx-patch",
+    "body": ["hx-patch=\"${1:/endpoint}\"$0"],
+    "description": "HTMX PATCH request"
+  },
+  "hx-trigger": {
+    "prefix": "hx-trigger",
+    "body": ["hx-trigger=\"${1:click}\"$0"],
+    "description": "HTMX trigger event"
+  },
+  "hx-target": {
+    "prefix": "hx-target",
+    "body": ["hx-target=\"${1:#target-element}\"$0"],
+    "description": "HTMX target element"
+  },
+  "hx-swap": {
+    "prefix": "hx-swap",
+    "body": ["hx-swap=\"${1:innerHTML}\"$0"],
+    "description": "HTMX swap method"
+  },
+  "hx-confirm": {
+    "prefix": "hx-confirm",
+    "body": ["hx-confirm=\"${1:Are you sure you want to do this?}\"$0"],
+    "description": "HTMX confirmation dialog"
+  },
+  "hx-disabled": {
+    "prefix": "hx-disabled",
+    "body": ["hx-disabled=\"${1:true}\"$0"],
+    "description": "HTMX disable element"
+  },
+  "hx-indicator": {
+    "prefix": "hx-indicator",
+    "body": ["hx-indicator=\"${1:#loading-indicator}\"$0"],
+    "description": "HTMX loading indicator"
+  },
+  "hx-include": {
+    "prefix": "hx-include",
+    "body": ["hx-include=\"${1:closest form}\"$0"],
+    "description": "HTMX include additional elements"
+  },
+  "hx-ext": {
+    "prefix": "hx-ext",
+    "body": ["hx-ext=\"${1:extension-name}\"$0"],
+    "description": "HTMX extension"
+  },
+  "hx-boost": {
+    "prefix": "hx-boost",
+    "body": ["hx-boost=\"${1:true}\"$0"],
+    "description": "HTMX boost navigation"
+  },
+  "hx-vals": {
+    "prefix": "hx-vals",
+    "body": ["hx-vals='${1:{ \"key\": \"value\" }}'$0"],
+    "description": "HTMX additional values"
+  },
+  "htmx-request": {
+    "prefix": "htmx-full-request",
+    "body": [
+      "hx-get=\"${1:/endpoint}\"",
+      "hx-trigger=\"${2:click}\"",
+      "hx-target=\"${3:#target-element}\"",
+      "hx-indicator=\"${4:#loading}\"$0"
+    ],
+    "description": "Full HTMX request snippet"
+  },
+  "htmx-form": {
+    "prefix": "htmx-form",
+    "body": [
+      "<form",
+      "  hx-post=\"${1:/submit-endpoint}\"",
+      "  hx-target=\"${2:#result}\"",
+      "  hx-indicator=\"${3:#spinner}\"",
+      ">",
+      "  ${4:<!-- Form fields -->}",
+      "  <button type=\"submit\">Submit</button>",
+      "</form>$0"
+    ],
+    "description": "HTMX form with request handling"
+  },
+  "htmx-button": {
+    "prefix": "htmx-button",
+    "body": [
+      "<button",
+      "  hx-${1:get}=\"${2:/endpoint}\"",
+      "  hx-trigger=\"${3:click}\"",
+      "  hx-target=\"${4:#target}\"",
+      ">",
+      "  ${5:Button Text}",
+      "</button>$0"
+    ],
+    "description": "HTMX interactive button"
+  }
+}

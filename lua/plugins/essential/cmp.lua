@@ -115,6 +115,9 @@ return {
 				}),
 				sources = {
 					{ name = "nvim_lsp" },
+					{ name = "luasnip" },
+					{ name = "buffer", keyword_length = 5, max_item_count = 5 },
+					{ name = "nvim_lua" },
 					{ name = "cmp_git" },
 					{ name = "path" },
 					{
@@ -122,8 +125,6 @@ return {
 						-- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
 						group_index = 0,
 					},
-					{ name = "luasnip" },
-					{ name = "buffer", keyword_length = 5, max_item_count = 5 },
 				},
 				formatting = {
 					expandable_indicator = false,
