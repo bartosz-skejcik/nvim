@@ -149,6 +149,9 @@ return {
 			--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+			vim.filetype.add({ extension = { templ = "templ" } })
+
 			local lsp_flags = { debounce_text_changes = 150 }
 			local on_attach = function(client, bufnr)
 				local function buf_set_keymap(...)
@@ -247,35 +250,36 @@ return {
 					-- },
 				},
 
+				templ = {
+					-- on_attach = on_attach,
+					capabilities = capabilities,
+					filetypes = { "templ" },
+				},
+
 				html = {
+					-- on_attach = on_attach,
 					capabilities = capabilities,
 					filetypes = {
 						"templ",
 						"html",
-						"css",
-						"javascriptreact",
-						"typescriptreact",
-						"javascript",
-						"typescript",
-						"jsx",
-						"tsx",
-					},
-					settings = {
-						html = {
-							suggest = {
-								html5 = true,
-							},
-						},
+						-- "css",
+						-- "javascriptreact",
+						-- "typescriptreact",
+						-- "javascript",
+						-- "typescript",
+						-- "jsx",
+						-- "tsx",
 					},
 					-- Add a lower priority for HTML
-					root_dir = function(fname)
-						return require("lspconfig").util.find_git_ancestor(fname) or vim.fn.getcwd()
-					end,
+					-- root_dir = function(fname)
+					-- 	return require("lspconfig").util.find_git_ancestor(fname) or vim.fn.getcwd()
+					-- end,
 				},
 
 				htmx = {
+					-- on_attach = on_attach,
 					capabilities = capabilities,
-					filetypes = { "htmx", "html.htmx", "html", "templ" },
+					filetypes = { "html", "templ" },
 					settings = {
 						htmx = {
 							completion = {
@@ -285,17 +289,16 @@ return {
 						},
 					},
 					-- Add a higher priority for HTMX
-					root_dir = function(fname)
-						return require("lspconfig").util.root_pattern("*.htmx")(fname)
-							or require("lspconfig").util.find_git_ancestor(fname)
-							or vim.fn.getcwd()
-					end,
+					-- root_dir = function(fname)
+					-- 	return require("lspconfig").util.root_pattern("*.htmx")(fname)
+					-- 		or require("lspconfig").util.find_git_ancestor(fname)
+					-- 		or vim.fn.getcwd()
+					-- end,
 				},
 
 				emmet_language_server = {
 					capabilities = capabilities,
 					filetypes = {
-						"templ",
 						"html",
 						"css",
 						"javascriptreact",
@@ -334,11 +337,16 @@ return {
 					capabilities = capabilities,
 				},
 
+				-- rust_analyzer = function()
+				-- 	return true
+				-- end,
+
 				tailwindcss = {
+					on_attach = on_attach,
 					capabilities = capabilities,
 					filetypes = {
+						"astro",
 						"templ",
-						"html",
 						"css",
 						"vue",
 						"javascriptreact",
@@ -361,6 +369,23 @@ return {
 						"node_modules",
 						".git"
 					),
+					settings = {
+						tailwindCSS = {
+							validate = true,
+							lint = {
+								cssConflict = "warning",
+								invalidApply = "error",
+								invalidConfigPath = "error",
+								invalidScreen = "error",
+								invalidTailwindDirective = "error",
+								invalidVariant = "error",
+								recommendedVariantOrder = true,
+							},
+							includeLanguages = {
+								templ = "html",
+							},
+						},
+					},
 					init_options = {
 						userLanguages = {
 							vue = "html",
@@ -446,7 +471,8 @@ return {
 				"prettierd",
 				"intelephense",
 				"emmet_ls",
-				"rust-analyzer",
+				-- "rust-analyzer",
+				-- "codelldb", -- Debugger for Rust
 				"gopls",
 				"prettier",
 				"htmx",
@@ -461,7 +487,10 @@ return {
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 			require("mason-lspconfig").setup({
+				ensure_installed = ensure_installed,
+				automatic_installation = true,
 				handlers = {
+					rust_analyzer = function() end,
 					function(server_name)
 						local server = servers[server_name] or {}
 						-- This handles overriding only values explicitly passed
@@ -470,9 +499,6 @@ return {
 						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 						require("lspconfig")[server_name].setup(server)
 					end,
-					-- ["rust_analyzer"] = function()
-					-- 	require("rustaceanvim").setup({})
-					-- end,
 				},
 			})
 		end,

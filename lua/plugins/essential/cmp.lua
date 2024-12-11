@@ -40,16 +40,21 @@ return {
 		config = function()
 			-- See `:help cmp`
 			local cmp = require("cmp")
-			local types = require("cmp.types")
-			local str = require("cmp.utils.str")
+			-- local types = require("cmp.types")
+			-- local str = require("cmp.utils.str")
 
 			local luasnip = require("luasnip")
 			local lspkind = require("lspkind")
+
+			local colors = require("kanagawa-paper.colors").setup()
+			local theme = colors.theme
 
 			luasnip.config.setup({
 				region_check_events = "CursorMoved",
 				delete_check_events = "TextChanged",
 			})
+
+			vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = theme.ui.fg_gray })
 
 			cmp.setup({
 				snippet = {
@@ -63,6 +68,7 @@ return {
 					-- completeopt = "menu,menuone,noinsert",
 				},
 				window = {
+					completion = cmp.config.window.bordered(),
 					documentation = cmp.config.window.bordered(),
 				},
 				mapping = cmp.mapping.preset.insert({
@@ -126,50 +132,59 @@ return {
 						group_index = 0,
 					},
 				},
+
 				formatting = {
-					expandable_indicator = false,
+					expandable_indicator = true,
 					fields = {
-						"kind",
 						"abbr",
 						"menu",
+						"kind",
 					},
-					format = lspkind.cmp_format({
-						-- mode = "symbol", -- show only symbol annotations
-						-- maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-						-- -- can also be a function to dynamically calculate max width such as
-						-- -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
-						-- ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-						show_labelDetails = true, -- show labelDetails in menu. Disabled by default
-						--
-						-- -- The function below will be called before any actual modifications from lspkind
-						-- -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-						with_text = false,
-						before = function(entry, vim_item)
-							-- Get the full snippet (and only keep first line)
-							local word = entry:get_insert_text()
-							if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet then
-								word = entry.completion_item.label
-							end
-							word = str.oneline(word)
+					format = function(entry, vim_item)
+						-- Use lspkind to format the kind part
+						vim_item = lspkind.cmp_format({
+							mode = "symbol_text",
+							maxwidth = function()
+								return math.floor(0.45 * vim.o.columns)
+							end,
+							ellipsis_char = "...",
+							show_labelDetails = true,
+							with_text = true,
+						})(entry, vim_item)
 
-							-- concatenates the string
-							-- local max = 50
-							-- if string.len(word) >= max then
-							-- 	local before = string.sub(word, 1, math.floor((max - 3) / 2))
-							-- 	word = before .. "..."
-							-- end
+						-- vim_item.menu = ({
+						-- 	buffer = "[Buffer]",
+						-- 	nvim_lsp = "[LSP]",
+						-- 	luasnip = "[LuaSnip]",
+						-- 	nvim_lua = "[Lua]",
+						-- 	latex_symbols = "[Latex]",
+						-- 	path = "[Path]",
+						-- 	cmp_git = "[Git]",
+						-- })[entry.source.name]
 
-							if
-								entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet
-								and string.sub(vim_item.abbr, -1, -1) == "~"
-							then
-								word = word .. "~"
-							end
-							vim_item.abbr = word
+						return vim_item
+					end,
 
-							return vim_item
-						end,
-					}),
+					-- format = lspkind.cmp_format({
+					-- 	mode = "symbol_text", -- show only symbol annotations
+					-- 	menu = {
+					-- 		buffer = "[Buffer]",
+					-- 		nvim_lsp = "[LSP]",
+					-- 		luasnip = "[LuaSnip]",
+					-- 		nvim_lua = "[Lua]",
+					-- 		latex_symbols = "[Latex]",
+					-- 		path = "[Path]",
+					-- 		cmp_git = "[Git]",
+					-- 	},
+					-- 	-- maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+					-- 	-- -- can also be a function to dynamically calculate max width such as
+					-- 	maxwidth = function()
+					-- 		return math.floor(0.45 * vim.o.columns)
+					-- 	end,
+					-- 	ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+					-- 	show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+					-- 	with_text = true,
+					-- }),
 				},
 				experimental = {
 					ghost_text = false,

@@ -72,9 +72,9 @@ return {
 	priority = 1000,
 	opts = {},
 	config = function()
-		require("kanagawa-paper").setup({
-			dimInactive = false,
-		})
+		-- require("kanagawa-paper").setup({
+		-- 	dimInactive = false,
+		-- })
 		vim.cmd("colorscheme kanagawa-paper")
 	end,
 }
