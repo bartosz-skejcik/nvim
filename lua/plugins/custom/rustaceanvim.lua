@@ -24,19 +24,32 @@ return {
 			-- 	liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
 			-- end
 
-			local cfg = require("rustaceanvim.config")
+			-- local colors = require("kanagawa-paper.colors").setup()
+			-- local theme = colors.theme
+			-- vim.api.nvim_set_hl(0, "LspInlayHint", { fg = theme.ui.fg_gray, bg = "NONE", italic = true })
+
+			local ih = require("inlay-hints")
 
 			return {
 				-- dap = {
 				-- 	adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
 				-- },
+				tools = {
+					on_initialized = function()
+						ih.set_all()
+					end,
+					inlay_hints = {
+						auto = false,
+					},
+				},
 				server = {
-					on_attach = function(client)
+					on_attach = function(client, bufnr)
 						print("Attaching to rustaceanvim")
 						-- If you have a specific on_attach function, paste its contents here
 						-- Otherwise, you can use a basic on_attach or remove this entirely
 
-						local bufnr = vim.api.nvim_get_current_buf()
+						ih.on_attach(client, bufnr)
+
 						vim.keymap.set("n", "<leader>ca", function()
 							vim.cmd.RustLsp("codeAction") -- supports rust-analyzer's grouping
 							-- or vim.lsp.buf.codeAction() if you don't want grouping.
@@ -59,6 +72,12 @@ return {
 						["rust-analyzer"] = {
 							checkOnSave = {
 								command = "clippy",
+							},
+							inlay_hints = {
+								typeHints = true, -- Enable type hints
+								parameterHints = true, -- Already configured
+								chainingHints = true, -- Show hints for method chaining
+								maxLength = 20, -- Optional: truncate long hints
 							},
 						},
 					},
