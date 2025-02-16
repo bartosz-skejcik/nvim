@@ -1,0 +1,52 @@
+{
+  "main(void) template": {
+    "prefix": "mainn",
+    "body": ["int main(void)", "{$0", "\treturn EXIT_SUCCESS;", "}"],
+    "description": "No-args main() snippet"
+  },
+  "cmain": {
+    "prefix": "boilerplate for C main body",
+    "body": [
+      "#include <stdio.h>",
+      "int main()",
+      "{",
+      "\\t$1",
+      "\\treturn 0;",
+      "}"
+    ],
+    "description": "C main Body"
+  },
+  "cfor": {
+    "prefix": "boilerplate for C for loop",
+    "body": [
+      "#include <stdio.h>",
+      "int main()",
+      "{",
+      "for ( $1)",
+      "\\t{",
+      "\\t\\t/* Statement here */",
+      "\\t}",
+      "\\treturn 0;",
+      "}"
+    ],
+    "description": "C for loop"
+  },
+  "cnestedfor": {
+    "prefix": "boiler plate for nedted for loop",
+    "body": [
+      "#include <stdio.h>",
+      "int main()",
+      "{",
+      "for ( $1)",
+      "\\t{",
+      "\\t\\t/* Statement here */",
+      "\\t\\tfor ( )",
+      "\\t\\t\\t{",
+      "\\t\\t\\t\\t/* Statement Here */",
+      "\\t\\t\\t}",
+      "\\t}",
+      "\\treturn 0;",
+      "}"
+    ]
+  }
+}

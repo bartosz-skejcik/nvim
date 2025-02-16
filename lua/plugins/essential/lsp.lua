@@ -151,7 +151,7 @@ return {
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-			vim.filetype.add({ extension = { templ = "templ" } })
+			vim.filetype.add({ extension = { templ = "templ", asm = "asm", nasm = "nasm", s = "asm" } })
 
 			local lsp_flags = { debounce_text_changes = 150 }
 			local on_attach = function(client, bufnr)
@@ -312,10 +312,10 @@ return {
 					},
 				},
 
-				["vue-language-server"] = { -- This is Volar
-					capabilities = capabilities,
-					filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
-				},
+				-- ["vue-language-server"] = { -- This is Volar
+				-- 	capabilities = capabilities,
+				-- 	filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
+				-- },
 
 				volar = {
 					capabilities = capabilities,
@@ -448,6 +448,8 @@ return {
 					},
 					capabilities = capabilities,
 				},
+
+				jdtls = {},
 			}
 
 			-- Ensure the servers and tools above are installed
@@ -462,20 +464,20 @@ return {
 			-- for you, so that they are available from within Neovim.
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
-				"stylua", -- Used to format Lua code
-				"html-lsp",
-				"vue-language-server",
+				-- "stylua", -- Used to format Lua code
+				-- "html-lsp",
+				-- "vue-language-server",
 				"volar",
-				"tailwindcss-language-server",
+				-- "tailwindcss-language-server",
 				"emmet_language_server",
-				"eslint-lsp",
-				"prettierd",
+				-- "eslint-lsp",
+				-- "prettierd",
 				"intelephense",
 				"emmet_ls",
 				-- "rust-analyzer",
 				-- "codelldb", -- Debugger for Rust
 				"gopls",
-				"prettier",
+				-- "prettier",
 				"htmx",
 				"cssls",
 				"ts_ls",
@@ -483,7 +485,7 @@ return {
 				"marksman",
 				"prismals",
 				"omnisharp",
-				"volar",
+				-- "asm-lsp",
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

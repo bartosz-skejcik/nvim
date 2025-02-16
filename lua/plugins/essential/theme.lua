@@ -72,9 +72,20 @@ return {
 	priority = 1000,
 	opts = {},
 	config = function()
-		-- require("kanagawa-paper").setup({
-		-- 	dimInactive = false,
-		-- })
+		require("kanagawa-paper").setup({
+			colors = {
+				palette = {
+					sumiInk0 = "#0A0A0A", -- Darkest base (adjusted from #16161D)
+					sumiInk1 = "#0D0D0D", -- Slightly lighter than ink0
+					sumiInk2 = "#0F0F0F", -- Pre-bg transition
+					sumiInk3 = "#101010", -- New core background
+					sumiInk4 = "#1A1A1A", -- Elevated UI elements
+					sumiInk5 = "#242424", -- Secondary elements
+					sumiInk6 = "#3D3D3D", -- Foreground/text
+				},
+			},
+		})
+
 		vim.cmd("colorscheme kanagawa-paper")
 	end,
 }

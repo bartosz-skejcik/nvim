@@ -34,6 +34,7 @@ return {
 				"vue",
 				"css",
 				"javascript",
+				"asm",
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,
