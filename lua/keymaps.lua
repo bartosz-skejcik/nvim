@@ -6,7 +6,17 @@
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>dq", function()
+	require("telescope.builtin").quickfix()
+end, { desc = "Open [D]iagnostic [Q]uickfix list" })
+
+vim.keymap.set("n", "<leader>dl", function()
+	require("telescope.builtin").loclist()
+end, { desc = "Open [D]iagnostic [L]ocation list" })
+
+vim.keymap.set("n", "<leader>dd", function()
+	require("telescope.builtin").diagnostics()
+end, { desc = "Open [D]iagnostic" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -36,8 +46,8 @@ vim.keymap.set("n", "<leader>p", '"_dP')
 
 -- Misc Quit and Write
 vim.keymap.set("n", "<leader>ww", "<cmd>:w<CR>", { desc = "Write the current file" })
-vim.keymap.set("n", "<leader>qq", "<cmd>:qa<CR>", { desc = "Exit out of Nvim" })
-vim.keymap.set("n", "<leader>wq", "<cmd>:wqa<CR>", { desc = "Exit out of Nvim" })
+vim.keymap.set("n", "<leader>qa", "<cmd>:qa<CR>", { desc = "Exit out of Nvim" })
+vim.keymap.set("n", "<leader>wq", "<cmd>:wqa<CR>", { desc = "Write and quit out of Nvim" })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
