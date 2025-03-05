@@ -192,6 +192,35 @@ return {
 				experimental = {
 					ghost_text = false,
 				},
+				sorting = {
+					priority_weight = 2,
+					comparators = {
+						-- Custom comparator to prioritize non-snippet entries
+						function(entry1, entry2)
+							local kind1 = entry1:get_kind()
+							local kind2 = entry2:get_kind()
+							local is_snippet1 = kind1 == cmp.lsp.CompletionItemKind.Snippet
+							local is_snippet2 = kind2 == cmp.lsp.CompletionItemKind.Snippet
+
+							-- Prioritize non-snippets over snippets
+							if is_snippet1 and not is_snippet2 then
+								return false
+							elseif not is_snippet1 and is_snippet2 then
+								return true
+							end
+
+							-- Fallback to default comparators
+							return nil
+						end,
+
+						-- Include other default comparators
+						cmp.config.compare.locality,
+						cmp.config.compare.score,
+						cmp.config.compare.offset,
+						cmp.config.compare.order,
+						cmp.config.compare.kind,
+					},
+				},
 			})
 		end,
 	},

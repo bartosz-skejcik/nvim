@@ -484,6 +484,7 @@ return {
 				"clangd",
 				"marksman",
 				"prismals",
+				"svelte-language-server",
 				"omnisharp",
 				-- "asm-lsp",
 			})
